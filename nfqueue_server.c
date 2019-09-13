@@ -182,15 +182,12 @@ static void modify_handshk_pkt(full_tcp_pkt_t *pkt, int pkt_len) {
     printf("\nPacket intercepted: \n");
     if (pkt->tcp_header.syn == 1 && pkt->tcp_header.ack == 0) {
         printf("\tPacket type: SYN\n");
-        pkt_meta *metadata = (pkt_meta *)((unsigned char *)pkt + pkt_len);
-        char orig_ip[INET_ADDRSTRLEN];
-        char new_ip[INET_ADDRSTRLEN];
+        pkt_meta *metadata =
+            (pkt_meta *)((unsigned char *)pkt + pkt_len - METADATA_SIZE);
+        char secret_ip[INET_ADDRSTRLEN];
 
-        inet_ntop(AF_INET, &pkt->ipv4_header.saddr, new_ip, INET_ADDRSTRLEN);
-        inet_ntop(AF_INET, &metadata->original_ip, orig_ip, INET_ADDRSTRLEN);
-        printf("\t\tFOUND ORIGINAL IP: %s. NEW SOURCE IP: %s\n", orig_ip,
-               new_ip);
-        pkt->tcp_header.doff += METADATA_SIZE / 4;
+        inet_ntop(AF_INET, &metadata->ip_addr, secret_ip, INET_ADDRSTRLEN);
+        printf("\nSECRET IP: %s\n", secret_ip);
     }
 
 
@@ -208,7 +205,7 @@ static int cb(struct nfq_q_handle *qh, struct nfgenmsg *nfmsg, struct nfq_data *
     int pkt_len = nfq_get_payload(nfa, (unsigned char **) &ipv4_payload);
     modify_handshk_pkt(ipv4_payload, pkt_len);
 
-    rev(&ipv4_payload->ipv4_header.tot_len, 2);
+    /*rev(&ipv4_payload->ipv4_header.tot_len, 2);
     ipv4_payload->ipv4_header.tot_len += METADATA_SIZE;
     rev(&ipv4_payload->ipv4_header.tot_len, 2);
 
@@ -219,8 +216,8 @@ static int cb(struct nfq_q_handle *qh, struct nfgenmsg *nfmsg, struct nfq_data *
     rev(&ipv4_payload->ipv4_header.check, 2); // Convert between endians
 
     tcpcsum(&ipv4_payload->ipv4_header,
-          (unsigned short *)&ipv4_payload->tcp_header);
-    int ret = nfq_set_verdict(qh, id, NF_ACCEPT, (u_int32_t) pkt_len + METADATA_SIZE,
+          (unsigned short *)&ipv4_payload->tcp_header);*/
+    int ret = nfq_set_verdict(qh, id, NF_ACCEPT, (u_int32_t) pkt_len,
             (void *) ipv4_payload);
     printf("\n Set verdict status: %s\n", strerror(errno));
     return ret;
