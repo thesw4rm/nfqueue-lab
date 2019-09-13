@@ -11,6 +11,6 @@ It will be improved more soon with tags and releases, but by looking through the
     ```sudo apt install make cmake libnetfilter-queue-dev```
   
   On Red Hat based systems
-    ```sudo yum install make cmake libnetfilter_queue-devel```
+    ```sudo yum install make cmake3 libnetfilter_queue-devel```
     
   After that make sure you have iptables on the system and ufw/firewalld is disabled (basically no firewall rules initially)
