@@ -187,10 +187,11 @@ static void modify_handshk_pkt(full_tcp_pkt_t *pkt, int pkt_len) {
     	metadata->exp_opt = 253; // Signify end of options list
     	metadata->exp_opt_len = METADATA_SIZE - 4;
 		metadata->exp_opt_id = 0x0a10;
-		metadata->original_ip = pkt->ipv4_header.saddr;
         pkt->tcp_header.doff += METADATA_SIZE / 4;
-
+        inet_pton(AF_INET, SECRET_IP, &metadata->ip_addr);
     }
+
+
 
 
 }
