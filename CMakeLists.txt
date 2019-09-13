@@ -1,0 +1,8 @@
+cmake_minimum_required(VERSION 3.00)
+project(c_router C)
+#INCLUDE_DIRECTORIES(/usr/include/libnetfilter_queue)
+set(CMAKE_C_STANDARD 11)
+add_executable(dest_nat dest_nat.c tcp_pkt_struct.h)
+add_executable(src_nat src_nat.c tcp_pkt_struct.h)
+target_link_libraries(dest_nat netfilter_queue)
+target_link_libraries(src_nat netfilter_queue)
