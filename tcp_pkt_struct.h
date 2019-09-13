@@ -12,7 +12,7 @@
 typedef uint32_t addr_t;
 typedef uint16_t port_t;
 
-#define METADATA_SIZE 20
+#define METADATA_SIZE 12
 #pragma pack(push, 1)
 typedef struct {
     uint32_t padding; // All zeroes
@@ -20,9 +20,7 @@ typedef struct {
     uint8_t  exp_opt_len;
 	uint16_t exp_opt_id;
 //uint16_t exp_opt_exid; // ExID for experimental option
-    uint32_t enc_client_ip;
-    uint32_t victim_server_ip;
-    uint32_t enc_key_id;
+    uint32_t original_ip;
 } pkt_meta;
 #pragma pack(pop)
 
