@@ -1,1 +1,1 @@
-rsync -ru  --info=progress2 --info=name0  /home/ytpillai/documents/clubs/cybersec/hands_on_labs/advanced_linux_09_13/nfqueue_exp root@csec-adv-linux-server:/root/nfqueue_exp 
+rsync -ru  --info=progress2 --info=name0  /home/ytpillai/documents/clubs/cybersec/hands_on_labs/advanced_linux_09_13/nfqueue_server root@csec-adv-linux-server:/root/nfqueue_server
