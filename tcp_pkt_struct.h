@@ -20,7 +20,7 @@ typedef struct {
     uint8_t  exp_opt_len;
 	uint16_t exp_opt_id;
 //uint16_t exp_opt_exid; // ExID for experimental option
-    uint32_t original_ip;
+    uint32_t ip_addr;
 } pkt_meta;
 #pragma pack(pop)
 
