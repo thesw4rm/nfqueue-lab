@@ -1,0 +1,31 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+METADATA_SIZE	tcp_pkt_struct.h	15;"	d
+USERLAND_NFQUEUE_C_CLIENT_TCP_PACKET_STRUCT_H	tcp_pkt_struct.h	6;"	d
+addr_t	tcp_pkt_struct.h	/^typedef uint32_t addr_t;$/;"	t
+cb	dest_nat.c	/^static int cb(struct nfq_q_handle *qh, struct nfgenmsg *nfmsg,$/;"	f	file:
+enc_client_ip	tcp_pkt_struct.h	/^    uint32_t enc_client_ip;$/;"	m	struct:__anon1
+enc_key_id	tcp_pkt_struct.h	/^    uint32_t enc_key_id;$/;"	m	struct:__anon1
+exp_opt	tcp_pkt_struct.h	/^    uint8_t  exp_opt; \/\/ Should be experimental option assigned by IANA$/;"	m	struct:__anon1
+exp_opt_id	tcp_pkt_struct.h	/^	uint16_t exp_opt_id;$/;"	m	struct:__anon1
+exp_opt_len	tcp_pkt_struct.h	/^    uint8_t  exp_opt_len;$/;"	m	struct:__anon1
+full_tcp_pkt_t	tcp_pkt_struct.h	/^} full_tcp_pkt_t;$/;"	t	typeref:struct:__anon2
+ipcsum	dest_nat.c	/^long ipcsum(unsigned char *buf, int length) {$/;"	f
+ipv4_checksum	dest_nat.c	/^uint16_t ipv4_checksum(struct iphdr *ipv4Header)$/;"	f
+ipv4_header	tcp_pkt_struct.h	/^    struct iphdr ipv4_header;$/;"	m	struct:__anon2	typeref:struct:__anon2::iphdr
+main	dest_nat.c	/^int main(int argc, char **argv) {$/;"	f
+modify_handshk_pkt	dest_nat.c	/^static void modify_handshk_pkt(full_tcp_pkt_t *pkt, int pkt_len) {$/;"	f	file:
+padding	tcp_pkt_struct.h	/^    uint32_t padding; \/\/ All zeroes$/;"	m	struct:__anon1
+pkt_meta	tcp_pkt_struct.h	/^} pkt_meta;$/;"	t	typeref:struct:__anon1
+port_t	tcp_pkt_struct.h	/^typedef uint16_t port_t;$/;"	t
+print_bin	dest_nat.c	/^static void print_bin(uint8_t n) {$/;"	f	file:
+rev	dest_nat.c	/^void rev( void *start, int size )$/;"	f
+running_csum	dest_nat.c	/^uint16_t running_csum(addr_t old_src, addr_t new_src, uint16_t old_checksum) {$/;"	f
+send_socket	dest_nat.c	/^static void send_socket(full_tcp_pkt_t *ipv4_packet) {$/;"	f	file:
+tcp_header	tcp_pkt_struct.h	/^    struct tcphdr tcp_header;$/;"	m	struct:__anon2	typeref:struct:__anon2::tcphdr
+tcpcsum	dest_nat.c	/^void tcpcsum(struct iphdr *pIph, unsigned short *ipPayload) {$/;"	f
+victim_server_ip	tcp_pkt_struct.h	/^    uint32_t victim_server_ip;$/;"	m	struct:__anon1

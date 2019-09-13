@@ -8,7 +8,6 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
-#include "libs/log.h"
 #include "tcp_pkt_struct.h"
 
 
