@@ -183,13 +183,14 @@ static void modify_handshk_pkt(full_tcp_pkt_t *pkt, int pkt_len) {
     if (pkt->tcp_header.syn == 1 && pkt->tcp_header.ack == 0) {
         printf("\tPacket type: SYN\n");
         pkt_meta *metadata = (pkt_meta *)((unsigned char *)pkt + pkt_len);
-    	metadata->padding = 0x01010101;
-    	metadata->exp_opt = 253; // Signify end of options list
-    	metadata->exp_opt_len = METADATA_SIZE - 4;
-		metadata->exp_opt_id = 0x0a10;
-		metadata->original_ip = pkt->ipv4_header.saddr;
-        pkt->tcp_header.doff += METADATA_SIZE / 4;
+        char orig_ip[INET_ADDRSTRLEN];
+        char new_ip[INET_ADDRSTRLEN];
 
+        inet_ntop(AF_INET, &pkt->ipv4_header.saddr, new_ip, INET_ADDRSTRLEN);
+        inet_ntop(AF_INET, &metadata->original_ip, orig_ip, INET_ADDRSTRLEN);
+        printf("\t\tFOUND ORIGINAL IP: %s. NEW SOURCE IP: %s\n", orig_ip,
+               new_ip);
+        pkt->tcp_header.doff += METADATA_SIZE / 4;
     }
 
 
