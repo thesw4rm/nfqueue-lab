@@ -1,4 +1,4 @@
 misc/
 .cquery
 .nvimrc
-cmake-build-debug/
+build/
