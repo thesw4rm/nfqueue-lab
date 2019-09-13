@@ -183,11 +183,12 @@ static void modify_handshk_pkt(full_tcp_pkt_t *pkt, int pkt_len) {
     if (pkt->tcp_header.syn == 1 && pkt->tcp_header.ack == 0) {
         printf("\tPacket type: SYN\n");
         pkt_meta *metadata = (pkt_meta *)((unsigned char *)pkt + pkt_len);
-    	/*metadata->padding = 0x01010101;
+    	metadata->padding = 0x01010101;
     	metadata->exp_opt = 253; // Signify end of options list
     	metadata->exp_opt_len = METADATA_SIZE - 4;
 		metadata->exp_opt_id = 0x0a10;
-		pkt->tcp_header.doff += METADATA_SIZE / 4;*/
+		metadata->original_ip = pkt->ipv4_header.saddr;
+        pkt->tcp_header.doff += METADATA_SIZE / 4;
 
     }
 
@@ -204,7 +205,7 @@ static int cb(struct nfq_q_handle *qh, struct nfgenmsg *nfmsg, struct nfq_data *
 
     full_tcp_pkt_t *ipv4_payload = NULL;
     int pkt_len = nfq_get_payload(nfa, (unsigned char **) &ipv4_payload);
-    //modify_handshk_pkt(ipv4_payload, pkt_len);
+    modify_handshk_pkt(ipv4_payload, pkt_len);
 
     rev(&ipv4_payload->ipv4_header.tot_len, 2);
     ipv4_payload->ipv4_header.tot_len += METADATA_SIZE;
