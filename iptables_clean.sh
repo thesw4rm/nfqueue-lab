@@ -1,3 +1,5 @@
 iptables -t mangle -F PREROUTING
 iptables -t mangle -F POSTROUTING
-iptables -t mangle -F FORWARD
+iptables -t nat -F PREROUTING
+iptables -t nat -F INPUT
+iptables -t nat -F POSTROUTING
