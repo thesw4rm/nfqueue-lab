@@ -9,7 +9,7 @@
 #include <unistd.h>
 #include <string.h>
 #include "tcp_pkt_struct.h"
-
+// TEST COMMENT
 
 
 /**
@@ -182,37 +182,19 @@ static void modify_handshk_pkt(full_tcp_pkt_t *pkt, int pkt_len) {
     printf("\nPacket intercepted: \n");
     if (pkt->tcp_header.syn == 1 && pkt->tcp_header.ack == 0) {
         printf("\tPacket type: SYN\n");
-    //    char old_src_ip[INET_ADDRSTRLEN];
-        char old_dst_ip[INET_ADDRSTRLEN];
-        //inet_ntop(AF_INET, &pkt->ipv4_header.saddr, old_src_ip, INET_ADDRSTRLEN);
-        inet_ntop(AF_INET, &pkt->ipv4_header.daddr, old_dst_ip, INET_ADDRSTRLEN);
-        printf("\t\tDST: %s\n", old_dst_ip);
         pkt_meta *metadata = (pkt_meta *)((unsigned char *)pkt + pkt_len);
-    	metadata->padding = 0x01010101;
+    	/*metadata->padding = 0x01010101;
     	metadata->exp_opt = 253; // Signify end of options list
     	metadata->exp_opt_len = METADATA_SIZE - 4;
 		metadata->exp_opt_id = 0x0a10;
-		pkt->tcp_header.doff += METADATA_SIZE / 4;
-        if (inet_pton(AF_INET, "10.10.4.2", &pkt->ipv4_header.daddr) <=
-                0) // TODO: Replace with helping server picker
-                perror("inet_pton");
+		pkt->tcp_header.doff += METADATA_SIZE / 4;*/
 
-       log_pkt(pkt);
-    } else if (pkt->tcp_header.syn == 1 && pkt->tcp_header.ack == 1) {
-        printf("SYNACK PKT RECEIVED \n");
-        pkt_meta *metadata = (pkt_meta *)((unsigned char *)pkt + pkt_len);
-        pkt->ipv4_header.daddr = metadata->enc_client_ip; // TODO: Decrypt Client IP address
-    } else if (pkt->tcp_header.ack == 1) {
-        //printf("ACK PKT RECEIVED \n");
     }
-
 
 
 }
 
-static int cb(struct nfq_q_handle *qh, struct nfgenmsg *nfmsg,
-        struct nfq_data *nfa, void *data) {
-    //	u_int32_t id = print_pkt(nfa);
+static int cb(struct nfq_q_handle *qh, struct nfgenmsg *nfmsg, struct nfq_data *nfa, void *data) {
     u_int32_t id;
 
     struct nfqnl_msg_packet_hdr *ph;
@@ -222,11 +204,8 @@ static int cb(struct nfq_q_handle *qh, struct nfgenmsg *nfmsg,
 
     full_tcp_pkt_t *ipv4_payload = NULL;
     int pkt_len = nfq_get_payload(nfa, (unsigned char **) &ipv4_payload);
-    modify_handshk_pkt(ipv4_payload, pkt_len);
-    //    ipv4_payload->metadata->exp_opt_exid = 0x0348;
+    //modify_handshk_pkt(ipv4_payload, pkt_len);
 
-	//printf("reached\n");
-    //printf("reached1\n");
     rev(&ipv4_payload->ipv4_header.tot_len, 2);
     ipv4_payload->ipv4_header.tot_len += METADATA_SIZE;
     rev(&ipv4_payload->ipv4_header.tot_len, 2);
@@ -239,10 +218,8 @@ static int cb(struct nfq_q_handle *qh, struct nfgenmsg *nfmsg,
 
     tcpcsum(&ipv4_payload->ipv4_header,
           (unsigned short *)&ipv4_payload->tcp_header);
-    printf("\n Packet length: %lu\tOrigPacketLength: %u", sizeof(ipv4_payload), pkt_len);
     int ret = nfq_set_verdict(qh, id, NF_ACCEPT, (u_int32_t) pkt_len + METADATA_SIZE,
             (void *) ipv4_payload);
-    printf("reached2\n");
     printf("\n Set verdict status: %s\n", strerror(errno));
     return ret;
 }
